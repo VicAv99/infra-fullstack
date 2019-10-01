@@ -1,10 +1,9 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:latest as builder
+ARG GOLANG_VERSION=latest
 
-# Add Maintainer Info
-LABEL maintainer="VenturPlex <victor.avila@venturplex.com>"
+FROM golang:$GOLANG_VERSION as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app/
@@ -22,9 +21,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 ######## Start a new stage from scratch #######
-FROM alpine:latest
-
-RUN apk --no-cache add ca-certificates
+FROM scratch
 
 WORKDIR /root/
 
@@ -35,4 +32,7 @@ COPY --from=builder /app/main .
 EXPOSE 8080
 
 # Command to run the executable
-ENTRYPOINT [ "./main" ]
+ENTRYPOINT ["./main"]
+
+LABEL GOLANG_VERSION=${GOLANG_VERSION} \
+      maintainer="VenturPlex <victor.avila@venturplex.com>"

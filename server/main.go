@@ -16,7 +16,7 @@ type User struct {
 // Connect to DB
 func initDB() *gorm.DB {
   // Openning file
-  db, err := gorm.Open("postgres", "host=0.0.0.0 port=5433 dbname=public user=root sslmode=disable")
+  db, err := gorm.Open("postgres", "host=postgres port=5432 dbname=public user=root sslmode=disable")
   db.LogMode(true)
   // Error
   if err != nil {
