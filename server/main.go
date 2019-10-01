@@ -13,12 +13,10 @@ type User struct {
   LastName  string `gorm:"not null" form:"last_name" json:"last_name"`
 }
 
-var db = initDB()
-
 // Connect to DB
 func initDB() *gorm.DB {
   // Openning file
-  db, err := gorm.Open("postgres", "host=127.0.0.1 port=5432 dbname=public user=root sslmode=disable")
+  db, err := gorm.Open("postgres", "host=0.0.0.0 port=5433 dbname=public user=root sslmode=disable")
   db.LogMode(true)
   // Error
   if err != nil {
@@ -56,7 +54,7 @@ func main() {
 }
 
 func PostUser(ctx *gin.Context) {
-    // defer db.Close()
+    db := initDB()
 
     var user User
     ctx.Bind(&user)
@@ -70,7 +68,7 @@ func PostUser(ctx *gin.Context) {
 }
 
 func GetUsers(ctx *gin.Context) {
-  // defer db.Close()
+  db := initDB()
 
   var users []User
 
@@ -80,7 +78,7 @@ func GetUsers(ctx *gin.Context) {
 }
 
 func GetUser(ctx *gin.Context) {
-  // defer db.Close()
+  db := initDB()
 
   id := ctx.Params.ByName("id")
   var user User
@@ -95,7 +93,7 @@ func GetUser(ctx *gin.Context) {
 }
 
 func UpdateUser(ctx *gin.Context) {
-  // defer db.Close()
+  db := initDB()
 
   // Get id user
   id := ctx.Params.ByName("id")
@@ -128,7 +126,7 @@ func UpdateUser(ctx *gin.Context) {
 }
 
 func DeleteUser(ctx *gin.Context) {
-  // defer db.Close()
+  db := initDB()
 
   // Get id user
   id := ctx.Params.ByName("id")
