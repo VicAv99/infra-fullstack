@@ -1,3 +1,43 @@
+# VenturPlex DevOps Example
+
+This repo is meant to be an example of all the different facets of our DevOps approach.
+
+![image](https://user-images.githubusercontent.com/1544557/65931426-6cca4f00-e3be-11e9-9833-0042094a5e70.png)
+
+## Prerequisites
+
+The only prerequistes to development are [make](https://www.gnu.org/software/make/) and [docker](https://www.docker.com/).
+
+## Client
+
+The `client` directory contains a very basic NRWL application that consumes the API coming from the server directory. It has a very basic Master Detail View on Users.
+
+## Server
+
+The `server` directory contains a very basic CRUD API built with GoLang connected to a Postgres Database.
+
+The data model is as follows:
+
+```markdown
+User
+-------------------
+Id:          string
+FirstName:       string
+LastName: string
+```
+
+Here is the routing table:
+
+```markdown
+GET    /users     – Retrieve all users
+GET    /users/:id – Retrieve user by ID
+POST   /user      – Create an user
+PUT    /users/:id – Update an existing user
+DELETE /users/:id – Delete an existing user
+```
+
+To start the server, run `make start`. This will build the Go files and run the resulting executable in a docker container. The docker portion is contained in `docker-compose.yml` and `server/Dockerfile`.
+
 ## Available Make Commands
 
 ```bash
